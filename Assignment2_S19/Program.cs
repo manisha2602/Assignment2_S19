@@ -71,7 +71,22 @@ namespace Assignment2_S19
         // Complete the maximumToys function below.
         static int maximumToys(int[] prices, int k)
         {
-            return 0;
+            int[] sarr = new int[prices.Length];
+            sarr = sortArray(prices);
+            int sum = 0;
+            int count = 0;
+            for (int i = 0; i < prices.Length; i++)
+            {
+                sum += prices[i];
+                if (sum >= k)
+                {
+                    break;
+                }
+
+                count += 1;
+
+            }
+            return count;
         }
 
         // Complete the balancedSums function below.
@@ -94,11 +109,21 @@ namespace Assignment2_S19
         }
 
         // Complete the findMedian function below.
+       
         static int findMedian(int[] arr)
         {
-            return 0;
-        }
+            int[] sarr = new int[arr.Length];
+            sarr = sortArray(arr);
+            if (arr.Length % 2 == 1)
+            {
+                return sarr[((sarr.Length + 1) / 2) - 1];
+            }
+            else
+            {
+                return (sarr[(sarr.Length / 2) - 1] + sarr[(sarr.Length / 2)]) / 2;
+            }
 
+        }
         // Complete the closestNumbers function below.
         static int[] closestNumbers(int[] arr)
         {
@@ -109,6 +134,23 @@ namespace Assignment2_S19
         static string dayOfProgrammer(int year)
         {
             return "";
+        }
+        static int[] sortArray(int[] a)
+        {
+            for (int i = 0; i < a.Length; i++)
+            {
+                int temp = 0;
+                for (int j = i + 1; j < a.Length; j++)
+                {
+                    if (a[i] > a[j])
+                    {
+                        temp = a[i];
+                        a[i] = a[j];
+                        a[j] = temp;
+                    }
+                }
+            }
+            return a;
         }
     }
 }
