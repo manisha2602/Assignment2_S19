@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Globalization;      // importing libraries for CultureInfo
 
 namespace Assignment2_S19
 {
@@ -53,6 +54,7 @@ namespace Assignment2_S19
             Console.WriteLine("\n\nDay of Programmer");
             int year = 2017;
             Console.WriteLine(dayOfProgrammer(year));
+            Console.ReadLine();
         }
 
         static void displayArray(int []arr) {
@@ -92,7 +94,21 @@ namespace Assignment2_S19
         // Complete the balancedSums function below.
         static string balancedSums(List<int> arr)
         {
-            return "";
+            int n = arr.Count;           //taking count of the array
+            int leftSum = arr[0];        //left of the array
+            int rightSum = 0;           //right of the array
+            for (int i = 0; i < n; i++)
+            {
+                rightSum += arr[i];
+            }
+            for (int i = 0; i < n - 1; i++)
+            {
+                if (leftSum == rightSum)     //cheking if left sum is equal to right
+                    return "YES";            //return YES
+                leftSum += arr[i + 1];      //adding to the left array 
+                rightSum -= arr[i];        // adding to the right array
+            }
+            return "NO";                  //return NO
         }
 
         // Complete the missingNumbers function below.
@@ -127,13 +143,81 @@ namespace Assignment2_S19
         // Complete the closestNumbers function below.
         static int[] closestNumbers(int[] arr)
         {
-            return new int[] { };
+            sortArray(arr);  //sorting the array with customizaed function
+            int diff = arr[arr.Length - 1];     //assigning length to difference
+            var res = new List<int>();        //creating a list to result
+            int[] output = new int[arr.Length * 2];   //assigning twice the length to output
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                if (arr[i + 1] - arr[i] <= diff)
+                {
+                    diff = arr[i + 1] - arr[i];     //calculating the difference
+                }
+            }
+            for (int i = 0; i < arr.Length - 1; i++)
+            {
+                if (arr[i + 1] - arr[i] == diff)
+                {
+                    res.Add(arr[i]);      //assigning first value of array
+                    res.Add(arr[i + 1]);  //assigning second value of array
+                }
+            }
+            output = res.ToArray();   //converting list to array
+            return output;           //returning output
         }
 
         // Complete the dayOfProgrammer function below.
         static string dayOfProgrammer(int year)
         {
-            return "";
+            string date = DateTime.Now.ToString("yyyy-MM-dd", CultureInfo.InvariantCulture);
+            int dayOfProgrammer = 256;
+            int adjustedDays = 0;
+            int daysForLeapYear = 244; //29 days in Feb
+            int daysForNonLeapYear = 243; //28 days in Feb
+            if (year >= 1919)  //gregorian
+            {
+                if (isLeap(year))  //calling the customized leap year function
+                {
+                    adjustedDays = dayOfProgrammer - daysForLeapYear;
+                }
+                else
+                {
+                    adjustedDays = dayOfProgrammer - daysForNonLeapYear;
+                }
+            }
+            else if (year <= 1917)  //julian
+            {
+                if (isLeap(year))   //calling the customized leap year function
+                {
+                    adjustedDays = dayOfProgrammer - daysForLeapYear;
+                }
+                else
+                {
+                    adjustedDays = dayOfProgrammer - daysForNonLeapYear;
+                }
+            }
+            else
+            {
+                adjustedDays = 26;
+            }
+
+            date = adjustedDays.ToString() + ".09." + year.ToString(); //final date calculation
+            return date;   //returning date
+        }
+        static bool isLeap(int year)
+        {
+            if (year % 4 != 0)   //checking if year is leay year or not
+            {
+                return false;
+            }
+            else if (year > 1918 && year % 100 == 0 && year % 400 != 0) //checking if year is leay year or not
+            {
+                return false;
+            }
+            else
+            {
+                return true;
+            }
         }
         static int[] sortArray(int[] a)
         {
