@@ -67,7 +67,19 @@ namespace Assignment2_S19
         // Complete the rotLeft function below.
         static int[] rotLeft(int[] a, int d)
         {
-            return new int[] {};
+            int n = 0;
+            n = a.Length; //to calculate length of an array
+
+            for (int i = 0; i < d; i++)  //outer loop to rotate array d times
+            {
+                int temp = a[0];     // storing the first number in temporary variable
+                for (int j = 0; j < n - 1; j++) // inner array to rotate array once
+                {
+                    a[j] = a[j + 1];
+                }
+                a[n - 1] = temp;            //assigning the temp to the last index
+            }
+            return a;
         }
 
         // Complete the maximumToys function below.
@@ -114,14 +126,62 @@ namespace Assignment2_S19
         // Complete the missingNumbers function below.
         static int[] missingNumbers(int[] arr, int[] brr)
         {
-            return new int[] { };
+            int n = arr.Length;
+            Boolean[] counted = new Boolean[n];  //boolean array to find if no. is counted or not
+            var miss = new List<int>();  //creating list to save missing numbers
+
+            for (int i = 0; i < brr.Length; i++)
+            {
+                int f = 0;   //counter to check if the no. is matched
+                for (int j = 0; j < n; j++)
+                {
+                    if (counted[j] == true)
+                        continue;     // if no. is alreadey matched than continue to next
+                    if (brr[i] == arr[j])
+                    {
+                        counted[j] = true;
+                        f++;    //if number matches than increase f by 1
+                        break;
+                    }
+                }
+                if (f == 0)
+                {
+                    int c = miss.Count;
+                    for (int k = 0; k < c; k++)   // loop to check if the missing number is already missing list
+                    {
+                        if (brr[i] == miss[k])
+                            f = 1;
+                    }
+                    if (f == 0)   //If no. is neither matched nor already added to missing list than add it 
+                    {
+                        miss.Add(brr[i]);
+                    }
+                }
+            }
+
+            int[] output = new int[miss.Count];
+            output = miss.ToArray();     //converting list to an array
+            sortArray(output);
+            return output;
         }
 
 
         // Complete the gradingStudents function below.
         static int[] gradingStudents(int[] grades)
         {
-            return new int[] { };
+            int n = grades.Length;
+            for (int i = 0; i < n; i++)
+            {
+                int next_round = 0;
+                next_round = grades[i] + (5 - (grades[i] % 5));  //rounding grade upto next multiple of 5
+                if (grades[i] < 38)  //if grade less than 38 return same grade
+                    continue;
+                else if (next_round - grades[i] > 2) //if diff b/w grade and next multiple of 5 is greater than 2, return grade
+                    continue;
+                else
+                    grades[i] = next_round;
+            }
+            return grades;
         }
 
         // Complete the findMedian function below.
